@@ -1,0 +1,10 @@
+#!/bin/sh
+
+here="$(cd $(dirname $0) && pwd)"
+
+pythonpath="$here/site:$here"
+
+env \
+    PYTHONPATH="$pythonpath" \
+    DJANGO_SETTINGS_MODULE=settings \
+    django-admin "$@"

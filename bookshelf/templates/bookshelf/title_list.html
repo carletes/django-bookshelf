@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Titles</h1>
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Authors</th>
+  </tr>
+  {% for title in title_list %}
+  <tr>
+    <td>{{ title.title }}</td>
+    <td>{{ title.authors }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
