@@ -6,12 +6,21 @@
   <tr>
     <th>Title</th>
     <th>Authors</th>
+    <th>Formats</th>
   </tr>
   {% for title in title_list %}
   <tr>
     <td>{{ title.title }}</td>
-    <td>{{ title.authors }}</td>
+    <td>{{ title.authors.all|join:", " }}</td>
+    <td><a href="#">PDF</a></td>
   </tr>
   {% endfor %}
 </table>
+
+<div id="toolbar">
+  <ul>
+    <li>Upload new</li>
+    <li>Manage bookshelf</li>
+  </ul>
+</div>
 {% endblock %}

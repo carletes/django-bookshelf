@@ -25,7 +25,6 @@ class Migration(migrations.Migration):
             name='Document',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('format', models.CharField(max_length=32)),
                 ('path', models.FileField(upload_to=bookshelf.models.document_path)),
             ],
         ),

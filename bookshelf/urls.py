@@ -5,4 +5,5 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.TitleList.as_view(), name="index"),
+    url(r'^document/add/$', views.DocumentCreate.as_view(), name="document-add"),
 ]
