@@ -37,7 +37,7 @@ class TitleAdmin(admin.ModelAdmin):
         selected = request.POST.getlist(admin.ACTION_CHECKBOX_NAME)
         titles = ",".join(selected)
         return HttpResponseRedirect(reverse("bookshelf:merge-titles") +
-                                    ("?titles=%s" % (titles,)))
+                                    ("?from_titles=%s" % (titles,)))
 
     merge_titles.short_description = "Merge selected titles"
 

@@ -13,11 +13,13 @@ class MergeForm(forms.Form):
     title = forms.ModelChoiceField(label="Title", queryset=None)
     authors = forms.ModelMultipleChoiceField(label="Authors", queryset=None)
     documents = forms.ModelMultipleChoiceField(label="Document", queryset=None)
-    from_title_ids = forms.MultipleChoiceField(widget=forms.MultipleHiddenInput())
+    from_titles = forms.CharField(widget=forms.HiddenInput())
 
     def __init__(self, *args, **kwargs):
         super(MergeForm, self).__init__(*args, **kwargs)
-        from_title_ids = kwargs.get("from_title_ids", [])
-        self.fields["title"].queryset = Title.objects.filter(pk__in=from_title_ids)
-        self.fields["authors"].queryset = Author.objects.filter(titles__in=kwargs.get("author_ids", []))
-        self.fields["documents"].queryset = Document.objects.filter(pk__in=kwargs.get("document_ids", []))
+        from_titles = kwargs.get("initial", self.data).get("from_titles")
+        if from_titles:
+            from_titles = from_titles.split(",")
+            self.fields["title"].queryset = Title.objects.filter(pk__in=from_titles).distinct()
+            self.fields["authors"].queryset = Author.objects.filter(title__pk__in=from_titles).distinct()
+            self.fields["documents"].queryset = Document.objects.filter(title__pk__in=from_titles).distinct()

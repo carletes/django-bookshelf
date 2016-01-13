@@ -55,33 +55,22 @@ class TitleList(ListView):
 def merge_titles(request):
     titles_index = reverse("admin:bookshelf_title_changelist")
 
-    title_ids = []
-    author_ids = []
-    document_ids = []
-    for title_id in request.GET.get("titles", "").split(","):
-        try:
-            title = Title.objects.get(pk=title_id)
-            title_ids.append(title.pk)
-            author_ids.extend(a.pk for a in title.authors.all())
-            document_ids.extent(d.pk for d in title.documents.all())
-        except Title.DoesNotExist:
-            pass
-
     if request.method == "POST":
-        form_params = dict(request.POST)
-        form_params.
+        from_titles = request.POST.get("from_titles", "")
         form = MergeForm(request.POST)
         if form.is_valid():
+            data = form.cleaned_data
+            from_titles = data["from_titles"].split(",")
+            for t in Title.objects.filter(pk__in=from_titles):
+                if t == data["title"]:
+                    t.authors.set(data["authors"], clear=True)
+                    t.documents.set(data["documents"], clear=True)
+                    t.save()
+                else:
+                    t.delete()
             return HttpResponseRedirect(titles_index)
+    else:
+        from_titles = request.GET.get("from_titles")
+        form = MergeForm(initial={"from_titles": from_titles})
 
-    if len(title_ids) < 2:
-        return HttpResponseRedirect(titles_index)
-
-
-    params = {
-        "title_ids": title_ids,
-        "author_ids": author_ids,
-        "document_ids": document_ids,
-        "form
-    }
-    return render(request, "bookshelf/merge_titles.html", params)
+    return render(request, "bookshelf/merge_titles.html", {"form": form})
