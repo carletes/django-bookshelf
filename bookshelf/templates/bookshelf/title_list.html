@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Titles</h1>
 <table>
   <tr>
     <th>Title</th>
@@ -12,15 +11,21 @@
   <tr>
     <td>{{ title.title }}</td>
     <td>{{ title.authors.all|join:", " }}</td>
-    <td><a href="#">PDF</a></td>
+    <td>
+      <ul>
+	{% for doc in title.documents.all %}
+	<li><a href="#">{{ doc.format }}</a></li>
+	{% endfor %}
+      </ul>
+    </td>
   </tr>
   {% endfor %}
 </table>
 
 <div id="toolbar">
   <ul>
-    <li>Upload new</li>
-    <li>Manage bookshelf</li>
+    <li><a href="{% url 'bookshelf:document-add' %}">Upload new</a></li>
+    <li><a href="{% url 'admin:bookshelf_title_changelist' %}">Manage bookshelf</a></li>
   </ul>
 </div>
 {% endblock %}
