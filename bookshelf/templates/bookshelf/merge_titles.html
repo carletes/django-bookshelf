@@ -1,11 +1,33 @@
-{% extends "base.html" %}
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static %}
+
+{% block title %}{% trans 'Merge titles' %}{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+{% endblock %}
+
+{% block extrastyle %}<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; <a href="{% url 'admin:app_list' app_label='bookshelf' %}">{% trans 'Bookshelf' %}</a>
+&rsaquo; <a href="{% url 'admin:bookshelf_title_changelist' %}">{% trans 'Titles' %}</a>
+&rsaquo; {% trans 'Merge titles' %}
+</div>
+{% endblock %}
+
+{% block coltype %}flex{% endblock %}
 
 {% block content %}
-<form action="" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  <table>
-    {{ form.as_table }}
-  </table>
-  <input type="submit" value="Merge" />
-</form>
+<div id="content-main">
+  <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+      {{ form.as_table }}
+    </table>
+    <input type="submit" value="{% trans 'Merge' %}" />
+  </form>
+</div>
 {% endblock %}

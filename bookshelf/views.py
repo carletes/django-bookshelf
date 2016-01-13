@@ -3,6 +3,7 @@ import logging
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.utils.translation import ugettext
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView
 
@@ -73,4 +74,9 @@ def merge_titles(request):
         from_titles = request.GET.get("from_titles")
         form = MergeForm(initial={"from_titles": from_titles})
 
-    return render(request, "bookshelf/merge_titles.html", {"form": form})
+    return render(request, "bookshelf/merge_titles.html",
+                  {
+                      "form": form,
+                      "has_permission": True,
+                      "title": ugettext("Merge titles"),
+                  })
