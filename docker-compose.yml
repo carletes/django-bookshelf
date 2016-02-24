@@ -1,0 +1,12 @@
+webapp:
+  build: .
+  command: /code/site/django-admin runserver 0.0.0.0:8000
+  volumes:
+    - .:/code:ro
+  ports:
+    - "8000:8000"
+  links:
+    - db
+
+db:
+  image: postgres

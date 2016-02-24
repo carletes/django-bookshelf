@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -x
+
+here="$(cd $(dirname $0) && pwd)"
+root_dir="$(cd $here/.. && pwd)"
+
+env \
+  PYTHONPATH=$here:$root_dir \
+  DJANGO_SETTINGS_MODULE=settings_docker \
+  django-admin.py \
+  "$@"
